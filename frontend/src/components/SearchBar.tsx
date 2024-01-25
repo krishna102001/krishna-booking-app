@@ -6,8 +6,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
-  const search = useSearchContext();
   const navigate = useNavigate();
+  const search = useSearchContext();
+
   const [destination, setDestination] = useState<string>(search.destination);
   const [checkIn, setCheckIn] = useState<Date>(search.checkIn);
   const [checkOut, setCheckOut] = useState<Date>(search.checkOut);
@@ -92,7 +93,7 @@ const SearchBar = () => {
           endDate={checkOut}
           minDate={minDate}
           maxDate={maxDate}
-          placeholderText='Check-in Date'
+          placeholderText='Check-out Date'
           className='min-w-full bg-white p-2 focus:outline-none'
           wrapperClassName='min-w-full'
         />

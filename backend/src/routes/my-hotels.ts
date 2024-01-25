@@ -1,10 +1,10 @@
-import express, { Response, Request } from "express";
+import express, { Request, Response } from "express";
 import multer from "multer";
 import cloudinary from "cloudinary";
-import { HotelType } from "../shared/types";
 import Hotel from "../models/hotel";
 import verifyToken from "../middleware/auth";
 import { body } from "express-validator";
+import { HotelType } from "../shared/types";
 
 const router = express.Router();
 
@@ -16,7 +16,6 @@ const upload = multer({
   },
 });
 
-// api/my-hotels
 router.post(
   "/",
   verifyToken,
@@ -41,21 +40,18 @@ router.post(
       const imageFiles = req.files as Express.Multer.File[];
       const newHotel: HotelType = req.body;
 
-      //1. upload the images to cloudinary
-
       const imageUrls = await uploadImages(imageFiles);
+
       newHotel.imageUrls = imageUrls;
       newHotel.lastUpdated = new Date();
       newHotel.userId = req.userId;
 
-      //3. save the new hotel in our database
       const hotel = new Hotel(newHotel);
       await hotel.save();
 
-      //4. return a 201 status
       res.status(201).send(hotel);
-    } catch (error) {
-      console.log("Error creating hotel: ", error);
+    } catch (e) {
+      console.log(e);
       res.status(500).json({ message: "Something went wrong" });
     }
   }
@@ -73,7 +69,10 @@ router.get("/", verifyToken, async (req: Request, res: Response) => {
 router.get("/:id", verifyToken, async (req: Request, res: Response) => {
   const id = req.params.id.toString();
   try {
-    const hotel = await Hotel.findOne({ _id: id, userId: req.userId });
+    const hotel = await Hotel.findOne({
+      _id: id,
+      userId: req.userId,
+    });
     res.json(hotel);
   } catch (error) {
     res.status(500).json({ message: "Error fetching hotels" });
@@ -126,7 +125,6 @@ async function uploadImages(imageFiles: Express.Multer.File[]) {
     return res.url;
   });
 
-  //2. if upload was successful, add the URLs to the new hotel
   const imageUrls = await Promise.all(uploadPromises);
   return imageUrls;
 }
