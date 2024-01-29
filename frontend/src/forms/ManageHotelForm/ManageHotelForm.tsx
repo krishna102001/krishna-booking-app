@@ -6,6 +6,7 @@ import GuestsSection from "./GuestsSection";
 import ImagesSection from "./ImagesSection";
 import { HotelType } from "../../../../backend/src/shared/types";
 import { useEffect } from "react";
+
 export type HotelFormData = {
   name: string;
   city: string;
@@ -20,11 +21,13 @@ export type HotelFormData = {
   adultCount: number;
   childCount: number;
 };
+
 type Props = {
   hotel?: HotelType;
-  onSave: (HotelFormData: FormData) => void;
+  onSave: (hotelFormData: FormData) => void;
   isLoading: boolean;
 };
+
 const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
   const formMethods = useForm<HotelFormData>();
   const { handleSubmit, reset } = formMethods;
@@ -49,7 +52,7 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
     formData.append("childCount", formDataJson.childCount.toString());
 
     formDataJson.facilities.forEach((facility, index) => {
-      formData.append(`facility[${index}]`, facility);
+      formData.append(`facilities[${index}]`, facility);
     });
 
     if (formDataJson.imageUrls) {
@@ -64,9 +67,10 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
 
     onSave(formData);
   });
+
   return (
     <FormProvider {...formMethods}>
-      <form className='flex flex-col gap-10 ' onSubmit={onSubmit}>
+      <form className='flex flex-col gap-10' onSubmit={onSubmit}>
         <DetailsSection />
         <TypeSection />
         <FacilitiesSection />
@@ -76,7 +80,7 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: Props) => {
           <button
             disabled={isLoading}
             type='submit'
-            className='bg-blue-600 text-white p-2  font-bold text-xl hover:bg-blue-500 disabled:bg-gray-500'
+            className='bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl disabled:bg-gray-500'
           >
             {isLoading ? "Saving..." : "Save"}
           </button>

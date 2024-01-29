@@ -22,7 +22,7 @@ const FacilitiesSection = () => {
                   if (facilities && facilities.length > 0) {
                     return true;
                   } else {
-                    return "At least one facilities";
+                    return "At least one facility is required";
                   }
                 },
               })}

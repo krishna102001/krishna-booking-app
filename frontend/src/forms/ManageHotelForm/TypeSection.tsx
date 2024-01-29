@@ -8,7 +8,9 @@ const TypeSection = () => {
     watch,
     formState: { errors },
   } = useFormContext<HotelFormData>();
+
   const typeWatch = watch("type");
+
   return (
     <div>
       <h2 className='text-2xl font-bold mb-3'>Type</h2>
@@ -25,7 +27,7 @@ const TypeSection = () => {
               type='radio'
               value={type}
               {...register("type", {
-                required: "This is required",
+                required: "This field is required",
               })}
               className='hidden'
             />

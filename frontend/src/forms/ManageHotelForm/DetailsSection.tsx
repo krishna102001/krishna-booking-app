@@ -6,6 +6,7 @@ const DetailsSection = () => {
     register,
     formState: { errors },
   } = useFormContext<HotelFormData>();
+
   return (
     <div className='flex flex-col gap-4'>
       <h1 className='text-3xl font-bold mb-3'>Add Hotel</h1>
@@ -45,7 +46,6 @@ const DetailsSection = () => {
           )}
         </label>
       </div>
-
       <label className='text-gray-700 text-sm font-bold flex-1'>
         Description
         <textarea
