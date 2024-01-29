@@ -27,15 +27,15 @@ router.get("/search", async (req: Request, res: Response) => {
     );
     const skip = (pageNumber - 1) * pageSize;
 
-    const hotels = await Hotel.find(query) // query is creating a problem to fetch all data
+    const hotels = await Hotel.find(query)
       .sort(sortOptions)
       .skip(skip)
       .limit(pageSize)
       .exec();
-    console.log(hotels);
-    console.log(query);
+    // console.log(hotels);
+    // console.log(query);
 
-    const total = await Hotel.countDocuments(query); // query is creating a problem to fetch all the data
+    const total = await Hotel.countDocuments(query);
 
     const response: HotelSearchResponse = {
       data: hotels,
