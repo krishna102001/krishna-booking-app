@@ -10,7 +10,7 @@ import { BookingFormData } from "./forms/BookingForm/BookingForm";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 export const fetchCurrentUser = async (): Promise<UserType> => {
-  const response = await fetch(`${API_BASE_URL}/api/user/me`, {
+  const response = await fetch(`${API_BASE_URL}/api/users/me`, {
     credentials: "include",
   });
   if (!response.ok) {
@@ -209,6 +209,7 @@ export const createPaymentIntent = async (
   if (!response.ok) {
     throw new Error("Error fetching payment intent");
   }
+
   return response.json();
 };
 

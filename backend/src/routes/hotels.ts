@@ -35,10 +35,7 @@ router.get("/search", async (req: Request, res: Response) => {
     const hotels = await Hotel.find(query)
       .sort(sortOptions)
       .skip(skip)
-      .limit(pageSize)
-      .exec();
-    // console.log(hotels);
-    // console.log(query);
+      .limit(pageSize);
 
     const total = await Hotel.countDocuments(query);
 
@@ -70,7 +67,7 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.get(
   "/:id",
-  [param("id").notEmpty().withMessage("Hotel Id is required")],
+  [param("id").notEmpty().withMessage("Hotel ID is required")],
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -78,12 +75,13 @@ router.get(
     }
 
     const id = req.params.id.toString();
+
     try {
       const hotel = await Hotel.findById(id);
       res.json(hotel);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Error fetching Hotel" });
+      res.status(500).json({ message: "Error fetching hotel" });
     }
   }
 );
@@ -92,10 +90,6 @@ router.post(
   "/:hotelId/bookings/payment-intent",
   verifyToken,
   async (req: Request, res: Response) => {
-    // 1. totalCost
-    // 2. hotelId
-    // 3. userId
-
     const { numberOfNights } = req.body;
     const hotelId = req.params.hotelId;
 
@@ -107,8 +101,8 @@ router.post(
     const totalCost = hotel.pricePerNight * numberOfNights;
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: totalCost * 100,
-      currency: "usd",
+      amount: totalCost,
+      currency: "inr",
       metadata: {
         hotelId,
         userId: req.userId,
@@ -135,6 +129,7 @@ router.post(
   async (req: Request, res: Response) => {
     try {
       const paymentIntentId = req.body.paymentIntentId;
+
       const paymentIntent = await stripe.paymentIntents.retrieve(
         paymentIntentId as string
       );
@@ -167,14 +162,16 @@ router.post(
           $push: { bookings: newBooking },
         }
       );
+
       if (!hotel) {
         return res.status(400).json({ message: "hotel not found" });
       }
+
       await hotel.save();
       res.status(200).send();
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Something went wrong" });
+      res.status(500).json({ message: "something went wrong" });
     }
   }
 );

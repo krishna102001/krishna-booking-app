@@ -15,6 +15,7 @@ type Props = {
   currentUser: UserType;
   paymentIntent: PaymentIntentResponse;
 };
+
 export type BookingFormData = {
   firstName: string;
   lastName: string;
@@ -68,6 +69,7 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
     if (!stripe || !elements) {
       return;
     }
+
     const result = await stripe.confirmCardPayment(paymentIntent.clientSecret, {
       payment_method: {
         card: elements.getElement(CardElement) as StripeCardElement,
@@ -75,14 +77,14 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
     });
 
     if (result.paymentIntent?.status === "succeeded") {
-      //book the room
       bookRoom({ ...formData, paymentIntentId: result.paymentIntent.id });
     }
   };
+
   return (
     <form
-      className='grid grid-cols-1 gap-5 rounded-lg border border-slate-300 p-5'
       onSubmit={handleSubmit(onSubmit)}
+      className='grid grid-cols-1 gap-5 rounded-lg border border-slate-300 p-5'
     >
       <span className='text-3xl font-bold'>Confirm Your Details</span>
       <div className='grid grid-cols-2 gap-6'>
@@ -117,11 +119,13 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
           />
         </label>
       </div>
+
       <div className='space-y-2'>
         <h2 className='text-xl font-semibold'>Your Price Summary</h2>
+
         <div className='bg-blue-200 p-4 rounded-md'>
           <div className='font-semibold text-lg'>
-            Total Cost: ${paymentIntent.totalCost.toFixed(2)}
+            Total Cost: &#8377;{paymentIntent.totalCost.toFixed(2)}
           </div>
           <div className='text-xs'>Includes taxes and charges</div>
         </div>
@@ -134,6 +138,7 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
           className='border rounded-md p-2 text-sm'
         />
       </div>
+
       <div className='flex justify-end'>
         <button
           disabled={isLoading}
