@@ -20,7 +20,7 @@ This repository contain the KRISHNA BOOKING APP Code build using the React.js fo
 
 ## Getting Started
 
-1. Clone the repository and navigate to the backend directory:
+1. Clone the repository and navigate to the directory:
 
    ```bash
    git clone https://github.com/krishna102001/krishna-booking-app.git
