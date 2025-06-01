@@ -65,10 +65,10 @@ This repository contain the KRISHNA BOOKING APP Code build using the React.js fo
    MONGO_CONNECTION_STRING="{Your MongoDB driver Url}"
    JWT_SECRET_KEY="{Enter The Secret Key}"
    FRONTEND_URL=`http://localhost:5173`
-   CLOUDINARY_CLOUD_NAM = "{Setup Cloudinary Name}"
+   CLOUDINARY_CLOUD_NAME = "{Setup Cloudinary Name}"
    CLOUDINARY_API_KEY = "{Setup Cloudinary API Key}"
    CLOUDINARY_API_SECRET = "{Setup Cloudinary API Secret}"
-   STRIPE_API_KE  = "{Setup STRIPE API Key}"
+   STRIPE_API_KEY  = "{Setup STRIPE API Key}"
    ```
 
 7. Start the backend server:
